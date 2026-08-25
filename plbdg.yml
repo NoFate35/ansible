@@ -1,0 +1,7 @@
+- hosts: app
+  tasks:
+  - name: uninstall git
+    ansible.builtin.apt: # имя модуля Ansible
+     name: git
+     state: absent
+    become: true
