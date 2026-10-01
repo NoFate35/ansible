@@ -1,8 +1,0 @@
-- hosts: app
-  tasks:
-  - name: install git
-    ansible.builtin.apt: # имя модуля Ansible
-     name: git
-     state: present
-     update_cache: true
-    become: true

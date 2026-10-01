@@ -1,15 +1,94 @@
 - hosts: app
-  tasks: 
-  - name: install redis server
-    # apt-get update && apt-get install redis-server
-    ansible.builtin.apt: # имя модуля Ansible
-     name: redis-server
-     state: present
-     update_cache: true
-    become: true
+  tasks:
+    - name: update cache
+      ansible.builtin.apt:
+        update_cache: yes
+      become: true
+      tags: pack
 
-  - name: remove redis server
-    ansible.builtin.apt:                     # apt-get remove redis-server                 ansible.builtin.apt:
-     name: redis-server
-     state: absent
-    become: true
+    - name: install git
+      ansible.builtin.apt:
+        name: git
+        state: latest
+      become: true
+      tags: pack
+
+    - name: uninstall git
+      ansible.builtin.apt:
+        name: git
+        state: absent
+      become: true
+      tags: pack
+
+    - name: install Make
+      ansible.builtin.apt:
+        name: build-essential
+        state: latest
+      become: true
+      tags: pack
+
+    - name: uninstall Make
+      ansible.builtin.apt:
+        name: build-essential
+        state: absent
+      become: true
+      tags: pack
+
+    - name: install Node.js
+      ansible.builtin.apt:
+        name: nodejs
+        state: latest
+      become: true
+      tags: pack
+
+    - name: uninstall Node.js
+      ansible.builtin.apt:
+        name: nodejs
+        state: absent
+      become: true
+      tags: pack
+
+    - name: Create a user 'arya'
+      ansible.builtin.user:
+       name: arya
+       create_home: yes
+      become: true
+      tags: users
+
+    - name: delete the user 'arya'
+      ansible.builtin.user:
+       name: arya
+       state: absent
+       remove: yes
+      become: true
+      tags: users
+
+    - name: Create a user 'sansa'
+      ansible.builtin.user:
+       name: sansa
+       create_home: yes
+      become: true
+      tags: users
+
+    - name: delete the user 'sansa'
+      ansible.builtin.user:
+       name: sansa
+       state: absent
+       remove: yes
+      become: true
+      tags: users
+
+    - name: Create a user 'tirion'
+      ansible.builtin.user:
+       name: tirion
+       create_home: yes
+      become: true
+      tags: users
+
+    - name: delete the user 'tirion'
+      ansible.builtin.user:
+       name: tirion
+       state: absent
+       remove: yes
+      become: true
+      tags: users
