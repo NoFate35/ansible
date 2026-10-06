@@ -22,9 +22,31 @@
         - restart nginx
       become: true
 
+    - name: install postgres
+      ansible.builtin.apt:
+        name: postgresql
+        state: latest
+      become: true
+      tags: postgres
+
+    - name: update postgresql config
+      ansible.builtin.template:
+        src: files/postgresql.conf
+        dest: /var/tmp/postgresql.conf
+      notify:
+        - restart postgresql
+      become: true
+      tags: postgres
+
   handlers:
     - name: restart nginx
       ansible.builtin.service:
         name: nginx
+        state: reloaded
+      become: true
+ 
+    - name: restart postgresql
+      ansible.builtin.service:
+        name: postgresql
         state: reloaded
       become: true

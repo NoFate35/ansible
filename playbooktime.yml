@@ -1,0 +1,11 @@
+- hosts: servers
+  tasks:
+    - name: install apt
+      ansible.builtin.apt:
+        name: git
+        state: latest
+      become: true
+      
+    - name: debug
+      ansible.builtin.debug:
+        - ansible_facts['memtotal_mb']
