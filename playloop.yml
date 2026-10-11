@@ -1,0 +1,32 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: install packages
+      ansible.builtin.apt:
+        name:
+          '{{ item }}'
+        state: latest
+      loop:
+        - redis-server
+        - postgresql
+      become: true
+
+    - name: add test users
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        state: present
+        groups: "{{ item.groups }}"
+      loop:
+        - {name: testuser1, groups: sudo}
+        - {name: testuser2, groups: users}
+      become: true
+
+    - name: remove test users
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        state: absent
+        remove: yes
+      loop:
+        - {name: testuser1, groups: sudo}
+        - {name: testuser2, groups: users}
+      become: true
