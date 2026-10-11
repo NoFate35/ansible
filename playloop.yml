@@ -1,5 +1,10 @@
 - hosts: all
   gather_facts: false
+  vars:
+    users:
+      - {name: jaimie}
+      - {name: sansa}
+      - {name: robert}
   tasks:
     - name: install packages
       ansible.builtin.apt:
@@ -15,10 +20,28 @@
       ansible.builtin.user:
         name: "{{ item.name }}"
         state: present
-        groups: "{{ item.groups }}"
-      loop:
-        - {name: testuser1, groups: sudo}
-        - {name: testuser2, groups: users}
+      loop: '{{ users }}'
+      become: true
+
+    - name: add git config
+      ansible.builtin.template:
+        src: files/gitconfig
+        dest: /home/{{ item.name }}/.gitconfig
+      loop: '{{ users }}'
+      become: true
+
+    - name: create directory
+      ansible.builtin.file:
+        path: /home/{{ item.name }}/.ssh
+        state: directory
+      loop: '{{ users }}'
+      become: true
+
+    - name: add ssh
+      ansible.builtin.copy:
+        src: files/fakessh
+        dest: /home/{{ item.name }}/.ssh/authorized_keys
+      loop: '{{ users }}'
       become: true
 
     - name: remove test users
@@ -26,7 +49,5 @@
         name: "{{ item.name }}"
         state: absent
         remove: yes
-      loop:
-        - {name: testuser1, groups: sudo}
-        - {name: testuser2, groups: users}
+      loop: '{{ users }}'
       become: true
