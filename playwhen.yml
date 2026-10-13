@@ -1,0 +1,7 @@
+- hosts: all
+  vars:
+  tasks:
+    - name: print number over five
+      ansible.builtin.command: echo {{ item }}
+      loop: [0, 2, 4, 6, 8, 10]
+      when: ansible_facts['distribution'] == 'Ubuntu'

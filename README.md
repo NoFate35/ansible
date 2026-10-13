@@ -4,3 +4,5 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#unde
 https://docs.ansible.com/ansible/latest/user_guide/playbooks_vars_facts.html#ansible-facts
 
 https://docs.ansible.com/ansible/latest/user_guide/playbooks_loops.html
+
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_conditionals.html#basic-conditionals-with-when
