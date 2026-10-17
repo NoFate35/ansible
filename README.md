@@ -8,3 +8,9 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_loops.html
 https://docs.ansible.com/ansible/latest/user_guide/playbooks_conditionals.html#basic-conditionals-with-when
 
 https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#using-filters-to-manipulate-data
+
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#registering-variables
+
+https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html
+
+https://galaxy.ansible.com/

@@ -1,0 +1,18 @@
+- hosts: all
+  gather_facts: false
+  tasks:
+    - ansible.builtin.command: "false"
+      register: result
+      ignore_errors: true
+
+    - name: yyy
+      ansible.builtin.command: echo 'ehu'
+      when: not result.failed
+
+    - name: nnn
+      ansible.builtin.command: uptime
+      when: result.failed
+    
+    - name: debuuug
+      ansible.builtin.debug:
+        msg: "{{ result }}"

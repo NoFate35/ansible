@@ -2,6 +2,7 @@
   vars:
       greet: "This is server {{ ansible_facts['hostname'] }}!"
       datetime: "{{ ansible_facts['date_time']['date'] }}"
+      hostname: "{{ ansible_facts['hostname'] }}"
   tasks:
     - name: look greet
       ansible.builtin.debug:
@@ -19,6 +20,20 @@
         state: latest
       become: true
       tags: nginx
+
+    - name: install cowsay
+      ansible.builtin.apt:
+        name: cowsay
+        state: latest
+      become: true
+      tags: cow
+
+    - name: call cowsay
+      ansible.builtin.shell: cowsay "This is server {{ hostname }}!"
+      register: cowsay_result
+      tags: cow
+      
+
     - name: ensure web root exists
       ansible.builtin.file:
         path: "{{ root_dir }}"
