@@ -1,0 +1,51 @@
+- hosts: all
+  vars:
+      greet: "This is server {{ ansible_facts['hostname'] }}!"
+      datetime: "{{ ansible_facts['date_time']['date'] }}"
+  tasks:
+    - name: look greet
+      ansible.builtin.debug:
+        msg: '{{ greet  }}'
+      tags: debug
+
+    - name: look datetime
+      ansible.builtin.debug:
+        msg: "{{ datetime }}"
+      tags: debug
+
+    - name: install nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: latest
+      become: true
+      tags: nginx
+    - name: ensure web root exists
+      ansible.builtin.file:
+        path: "{{ root_dir }}"
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0755'
+      become: true
+      tags: nginx
+ 
+    - name: copy html
+      ansible.builtin.template:
+        src: files/index.html
+        dest: "{{ root_dir }}/index.html"
+      become: true
+      tags: nginx
+
+    - name: update nginx config
+      ansible.builtin.template:
+        src: files/nginx.conf
+        dest: /etc/nginx/nginx.conf
+      become: true
+      tags: nginx
+
+    - name: restart nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded
+      become: true
+      tags: nginx

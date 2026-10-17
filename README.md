@@ -6,3 +6,5 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_vars_facts.html#ans
 https://docs.ansible.com/ansible/latest/user_guide/playbooks_loops.html
 
 https://docs.ansible.com/ansible/latest/user_guide/playbooks_conditionals.html#basic-conditionals-with-when
+
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html#using-filters-to-manipulate-data
