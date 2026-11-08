@@ -1,0 +1,18 @@
+- hosts: all
+  tasks:
+    - name: Pre-create Termux tmp dir for Ansible
+      raw: mkdir -p /data/data/com.termux/files/usr/tmp && chmod 700 /data/data/com.termux/files/usr/tmp
+      become: true
+    - name: Подготовка перед ролью
+      ansible.builtin.apt:
+        name: curl
+        state: present
+      become: true
+    - name: Ставим nginx через роль
+      ansible.builtin.import_role:
+        name: nginxinc.nginx
+    - name: Действия после роли
+      ansible.builtin.service:
+        name: nginx
+        state: started
+      become: true
