@@ -1,18 +1,30 @@
-- hosts: all
+- hosts: old, new
+  become: true
   tasks:
-    - name: Pre-create Termux tmp dir for Ansible
-      raw: mkdir -p /data/data/com.termux/files/usr/tmp && chmod 700 /data/data/com.termux/files/usr/tmp
-      become: true
-    - name: Подготовка перед ролью
-      ansible.builtin.apt:
-        name: curl
-        state: present
-      become: true
-    - name: Ставим nginx через роль
+    - name: Ставим git через роль
       ansible.builtin.import_role:
-        name: nginxinc.nginx
-    - name: Действия после роли
+        name: geerlingguy.git
+    - name: Ставим postgres через роль
+      ansible.builtin.import_role:
+        name: geerlingguy.postgresql
+    - name: Действия после роли postgres
       ansible.builtin.service:
-        name: nginx
+        name: postgresql
         state: started
-      become: true
+    - name: Удалить конфликтующий libnode-dev перед установкой Node.js
+      ansible.builtin.apt:
+        name:
+          - libnode-dev
+          - libnode72
+        state: absent
+        purge: yes
+      when: ansible_os_family == "Debian"
+      tags:
+        nodejs
+    - name: Ставим nodejs через роль
+      ansible.builtin.import_role:
+        name: geerlingguy.nodejs
+      vars: 
+        nodejs_version: '18.x'
+      tags:
+        nodejs
