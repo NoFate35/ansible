@@ -1,0 +1,8 @@
+- hosts: new, old
+  vars:
+    user: {'name': user2, 'email': user2@mail.ru}
+  tasks:
+    - name: Настраиваем нового пользователя
+      ansible.builtin.import_role:
+        name: role_name
+   

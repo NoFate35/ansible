@@ -1,3 +1,4 @@
-#SPDX-License-Identifier: MIT-0
----
-# defaults file for role_name
+vars:
+    user: 
+      name: 'useryyy'
+      email: 'useryyy@mail.ru'

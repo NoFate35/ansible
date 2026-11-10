@@ -1,3 +1,25 @@
-#SPDX-License-Identifier: MIT-0
----
-# tasks file for role_name
+- name: Create user
+  ansible.builtin.user:
+    name: "{{ user.name }}"
+  become: true
+  
+- name: Установить пакет acl для поддержки become_user
+  ansible.builtin.package:
+    name: acl
+    state: present
+  become: true
+  
+- name: Установить user.name в глобальном конфиге
+  community.general.git_config:
+    name: user.name
+    scope: global
+    value: "{{ user.name }}"
+  become: true
+  become_user: "{{ user.name }}"
+
+- name: Установить user.email в глобальном конфиге
+  community.general.git_config:
+    name: user.email
+    value: "{{ user.email }}"
+  become: true
+  become_user: "{{ user.name }}"
