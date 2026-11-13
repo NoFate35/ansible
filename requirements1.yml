@@ -1,0 +1,4 @@
+collections:
+  # Коллекция из Ansible Galaxy
+  - name: nginxinc.nginx_core
+  - name: community.docker
